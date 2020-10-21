@@ -4,15 +4,8 @@ author: "YOUR NAME"
 output: html_document
 ---
 
-```{r pkgs, include = FALSE}
-library(tidyverse)
-library(readxl)
-library(janitor)
-library(broom)
-```
-
 Here we've used the fertility data from the [gapminder web site](https://www.gapminder.org/data/) which contains the number of babies
-born per woman accross countries in the world. The documentation for this data is available [here](https://www.gapminder.org/data/documentation/gd008/)
+born per woman across countries in the world. The documentation for this data is available [here](https://www.gapminder.org/data/documentation/gd008/)
 .
 
 First we read in the data and process it, but you will need to make some changes to do the full analysis.
@@ -20,9 +13,7 @@ First we read in the data and process it, but you will need to make some changes
 ```{r raw_data}
 fertility_raw <- read_xlsx(
   "data/indicator-undata-total-fertility.xlsx"
-  ) %>%
-  clean_names() %>%
-  rename(country = total_fertility_rate)
+  ) 
 
 fertility_raw
 ```
@@ -30,20 +21,7 @@ fertility_raw
 We then pivot our data into long form and process our data
 
 ```{r fertility}
-fertility <-
-  fertility_raw %>%
-  pivot_longer(cols = -c(country), # everything but country,
-               # what is the name of the new variable we are changing the
-               # column of names to?
-               names_to = "year",
-               # What is the name of the column we are changing the values to?
-               values_to = "babies_per_woman") %>%
-  # extract out the year information
-  mutate(year = parse_number(year)) %>%
-  # filter so we only look at years above 1950
-  filter(year >= 1950 ) %>%
-  # center year around 1950
-  mutate(year1950 = year - min(year))
+readd(fertility)
 ```
 
 
